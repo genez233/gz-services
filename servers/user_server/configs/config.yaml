@@ -1,0 +1,33 @@
+# this is a config yaml
+Server: # 服务配置
+  ServerName: user_server
+  Version: 1.0.0
+  RunMode: debug
+  HttpPort: 8000
+  ReadTimeout: 60
+  WriteTimeout: 60
+App:  # 应用配置
+  DefaultPageSize: 10 # 默认页大小
+  LogSavePath: storage/logs  # 日志文件保存地址
+  UploadSavePath: storage/uploads # 上传的文件最终保存目录
+  UploadFileMaxSize: 5  # 上传文件所允许的最大空间大小（MB）
+  LogFileName: zy_blog # 日志文件名称
+  LogFileExt: .log  # 日志文件扩展名
+Jwt:
+  Secret: blog
+  Issuer: zy
+  Expire: 24 # 过期时间 单位/h
+Database:   # 数据库连接
+  DBType: mysql
+  UserName: root
+  Password: zy123456..
+  Host: 101.43.78.254
+  DBName: zy_blog_dev
+  Port: 3306
+  Charset: utf8mb4
+  ParseTime: True
+  MaxIdleConns: 10
+  MaxOpenConns: 30
+Log:
+  LogUrl: "",
+  OpenobserveToken: ""
