@@ -8,7 +8,7 @@ message GetUserRequest {
   int32 id = 1;
 }
 
-message UserInfoResponse {
+message GetUserResponse {
   int32 id = 1;
   string user_name = 2;
   string email = 3;
@@ -23,10 +23,20 @@ message LoginRequest {
   string password = 2;
 }
 
+message LoginResponse {
+  int32 id = 1;
+  string user_name = 2;
+  string email = 3;
+  string avatar = 4;
+  int64 created_time = 5;
+  int64 updated_time = 6;
+  int32 state = 7;
+}
+
 // 服务
 service UserService {
   // 根据用户编号查询用户信息
-  rpc GetUser(GetUserRequest) returns (UserInfoResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
   // 用户登录
-  rpc Login(LoginRequest) returns (UserInfoResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
 }

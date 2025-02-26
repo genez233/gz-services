@@ -11,23 +11,24 @@ App:  # 应用配置
   LogSavePath: storage/logs  # 日志文件保存地址
   UploadSavePath: storage/uploads # 上传的文件最终保存目录
   UploadFileMaxSize: 5  # 上传文件所允许的最大空间大小（MB）
-  LogFileName: zy_blog # 日志文件名称
+  LogFileName: logs # 日志文件名称
   LogFileExt: .log  # 日志文件扩展名
+  PwdSalt: Genez  # 密码盐
 Jwt:
   Secret: blog
-  Issuer: zy
+  Issuer: genez
   Expire: 24 # 过期时间 单位/h
 Database:   # 数据库连接
   DBType: mysql
   UserName: root
-  Password: zy123456..
-  Host: 101.43.78.254
-  DBName: zy_blog_dev
+  Password: mysql_genez
+  Host: 124.221.39.126
+  DBName: user
   Port: 3306
   Charset: utf8mb4
   ParseTime: True
   MaxIdleConns: 10
   MaxOpenConns: 30
-Log:
-  LogUrl: "",
-  OpenobserveToken: ""
+Log:  # Log日志配置
+  LogUrl: http://logs.zhiyunai.com.cn/api/default/%s/_json
+  OpenobserveToken: Basic MTIyNTg0MjkwNUBxcS5jb206QTlNVXdOQm14NWJNejlPTQ==

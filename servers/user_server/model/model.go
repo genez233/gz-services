@@ -17,7 +17,7 @@ func NewEngine() (*gorm.DB, error) {
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
 		logger.Config{
 			SlowThreshold:             time.Millisecond, // 慢 SQL 阈值
-			LogLevel:                  logger.Info,      // Log level
+			LogLevel:                  logger.Info,      // Logger level
 			IgnoreRecordNotFoundError: true,             // 忽略ErrRecordNotFound（记录未找到）错误
 			Colorful:                  true,             // 彩色打印
 		},

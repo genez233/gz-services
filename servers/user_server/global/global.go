@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	DB  *gorm.DB
-	Log *glog.GLog
+	DB     *gorm.DB
+	Logger *glog.GLog
 	// Server 服务配置
 	Server *sett.ServerSetting
 	// App 应用配置
@@ -16,5 +16,6 @@ var (
 	// Database 数据库配置
 	Database *sett.DatabaseSetting
 	// JWT 鉴权
-	JWT *sett.JWTSetting
+	JWT        *sett.JWTSetting
+	LogSetting *sett.LogSetting
 )

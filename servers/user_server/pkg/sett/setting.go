@@ -12,7 +12,7 @@ type Setting struct {
 func NewSetting() (*Setting, error) {
 	vp := viper.New()
 	vp.SetConfigName("config")
-	vp.AddConfigPath("./configs/")
+	vp.AddConfigPath("./servers/user_server/configs/")
 	vp.SetConfigType("yaml")
 	err := vp.ReadInConfig()
 	if err != nil {
@@ -45,6 +45,7 @@ type AppSetting struct {
 	LogFileExt        string
 	UploadSavePath    string
 	UploadFileMaxSize int
+	PwdSalt           string
 }
 
 type DatabaseSetting struct {
@@ -58,4 +59,9 @@ type DatabaseSetting struct {
 	ParseTime    bool
 	MaxIdleConns int
 	MaxOpenConns int
+}
+
+type LogSetting struct {
+	LogUrl           string
+	OpenobserveToken string
 }

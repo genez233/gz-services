@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"github.com/genez233/go-utils/gen"
 	"github.com/genez233/go-utils/glog"
 	"gz-services/servers/user_server/global"
 	"gz-services/servers/user_server/model"
 	"gz-services/servers/user_server/pkg/sett"
+	"gz-services/servers/user_server/routers"
 	"log"
+	"net/http"
 	"time"
 )
 
@@ -30,6 +30,10 @@ func init() {
 		return
 	}
 	err = st.ReadSection("Jwt", &global.JWT)
+	if err != nil {
+		return
+	}
+	err = st.ReadSection("Log", &global.LogSetting)
 
 	global.JWT.Expire *= time.Hour
 	global.Server.ReadTimeout *= time.Second
@@ -41,14 +45,14 @@ func init() {
 		return
 	}
 
-	global.Log = glog.New(&glog.Config{
+	global.Logger = glog.New(&glog.Config{
 		ServerName:       global.Server.ServerName,
 		Version:          global.Server.Version,
 		RunMode:          global.Server.RunMode,
 		ConsoleLog:       true,
 		IsUpload:         true,
-		LogUrl:           "",
-		OpenobserveToken: "",
+		LogUrl:           global.LogSetting.LogUrl,
+		OpenobserveToken: global.LogSetting.OpenobserveToken,
 	})
 }
 
@@ -63,24 +67,20 @@ func setupDBEngine() error {
 	return nil
 }
 
-//TIP To run your code, right-click the code and select <b>Run</b>. Alternatively, click
-// the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.
-
 func main() {
-	//TIP Press <shortcut actionId="ShowIntentionActions"/> when your caret is at the underlined or highlighted text
-	// to see how GoLand suggests fixing it.
-	s := "gopher"
-	fmt.Println("Hello and welcome, %s!", s)
+	//gen.GenEntity("D:\\Documents\\GitHub\\gz-services\\servers\\user_server\\model", global.DB)
 
-	gen.GenEntity("D:\\Documents\\GitHub\\gz-services\\servers\\user_server\\model")
+	global.Logger.Info(global.Server.ServerName + " start with port " + global.Server.HttpPort)
 
-	for i := 1; i <= 5; i++ {
-		//TIP You can try debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-		// for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>. To start your debugging session,
-		// right-click your code in the editor and select the <b>Debug</b> option.
-		fmt.Println("i =", 100/i)
+	router := routers.GetRouter()
+
+	s := &http.Server{
+		Addr:           ":" + global.Server.HttpPort,
+		Handler:        router,
+		ReadTimeout:    global.Server.ReadTimeout,
+		WriteTimeout:   global.Server.WriteTimeout,
+		MaxHeaderBytes: 1 << 20,
 	}
-}
 
-//TIP See GoLand help at <a href="https://www.jetbrains.com/help/go/">jetbrains.com/help/go/</a>.
-// Also, you can try interactive lessons for GoLand by selecting 'Help | Learn IDE Features' from the main menu.
+	_ = s.ListenAndServe()
+}
